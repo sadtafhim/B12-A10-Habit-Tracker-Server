@@ -20,13 +20,32 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
-    // Send a ping to confirm a successful connection
+    const db = client.db("habit-db");
+    const habitCollection = db.collection("habits");
+
+    // all habit data
+    app.get("/habits", async (req, res) => {
+      const result = await habitCollection.find().toArray();
+
+      res.send(result);
+    });
+
+    // add habit
+    app.post("/habits", async (req, res) => {
+      const data = req.body;
+      console.log(data);
+      const result = await habitCollection.insertOne();
+
+      res.send({
+        success: true,
+      });
+    });
+    // habitCollection;
     await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
   } finally {
-    // Ensures that the client will close when you finish/error
     // await client.close();
   }
 }
@@ -40,7 +59,7 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server iss listening on port ${port}`);
+  console.log(`Server is listening on port ${port}`);
 });
 
 // Habit-admin
