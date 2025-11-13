@@ -2,7 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const app = express();
-const port = 3000;
+const port = 5000;
+app.use(cors());
+app.use(express.json());
 
 const uri =
   "mongodb+srv://Habit-admin:p56QGw3URE4nkLDv@cluster0.h1ahmwn.mongodb.net/?appName=Cluster0";
@@ -33,8 +35,7 @@ async function run() {
     // add habit
     app.post("/habits", async (req, res) => {
       const data = req.body;
-      console.log(data);
-      const result = await habitCollection.insertOne();
+      const result = await habitCollection.insertOne(data);
 
       res.send({
         success: true,
@@ -50,9 +51,6 @@ async function run() {
   }
 }
 run().catch(console.dir);
-
-app.use(cors());
-app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Hello what!");
