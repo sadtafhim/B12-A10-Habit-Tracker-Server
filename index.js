@@ -41,6 +41,17 @@ async function run() {
         success: true,
       });
     });
+
+    // my models
+    app.get("/my-habit", async (req, res) => {
+      const email = req.query.email;
+      const result = await habitCollection
+        .find({
+          creatorEmail: email,
+        })
+        .toArray();
+      res.send(result);
+    });
     // habitCollection;
     await client.db("admin").command({ ping: 1 });
     console.log(
