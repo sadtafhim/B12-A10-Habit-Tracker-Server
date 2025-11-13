@@ -51,6 +51,25 @@ async function run() {
       });
     });
 
+    //update habit
+    app.put("/habits/:id", async (req, res) => {
+      const { id } = req.params;
+      const data = req.body;
+      const filter = { _id: new ObjectId(id) };
+
+      const update = {
+        $set: {
+          ...data,
+        },
+      };
+
+      const result = await habitCollection.updateOne(filter, update);
+      res.send({
+        success: true,
+        result,
+      });
+    });
+
     // my models
     app.get("/my-habit", async (req, res) => {
       const email = req.query.email;
