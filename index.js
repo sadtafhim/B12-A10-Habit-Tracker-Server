@@ -70,6 +70,17 @@ async function run() {
       });
     });
 
+    // delete habit
+    app.delete("/habits/:id", async (req, res) => {
+      const { id } = req.params;
+      const filter = { _id: new ObjectId(id) };
+      const result = await habitCollection.deleteOne(filter);
+
+      res.send({
+        success: true,
+        result,
+      });
+    });
     // my models
     app.get("/my-habit", async (req, res) => {
       const email = req.query.email;
