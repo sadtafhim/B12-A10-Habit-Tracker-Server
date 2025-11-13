@@ -24,3 +24,5 @@ serviceKey.json
 *.njsproj
 *.sln
 *.sw?
+
+.vercel
